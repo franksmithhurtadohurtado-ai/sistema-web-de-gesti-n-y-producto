@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ titulo }} · PedidoFácil{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-4">{{ titulo }}</h1>
+        <form method="post" id="form-producto" novalidate>
+          {% csrf_token %}
+          {% for field in form %}
+            {% include "includes/campo.html" with campo=field %}
+          {% endfor %}
+          <a href="{% url 'productos:lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/validaciones.js' %}"></script>{% endblock %}
