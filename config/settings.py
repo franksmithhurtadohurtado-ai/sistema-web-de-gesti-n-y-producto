@@ -18,7 +18,7 @@ from decouple import Csv, config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default=False, cast=lambda v: str(v).lower() in ('true', 't', '1', 'yes', 'y'))
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
@@ -100,16 +100,14 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "productos:lista"
-LOGOUT_REDIRECT_URL = "login"
-
+LOGIN_REDIRECT_URL = 'productos:lista'  # Redirige a productos tras un login exitoso
+LOGOUT_REDIRECT_URL = 'login'            # Redirige al login tras cerrar sesión
 
 
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-
 
 
 LOGGING = {
